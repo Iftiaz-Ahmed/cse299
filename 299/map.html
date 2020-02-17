@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Add a GeoJSON line</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div style="width: 50%; margin: 5% 0 0 30%;height: 70%;" id="map"></div>
+
+<script src="https://npmcdn.com/@turf/turf@5.1.6/turf.min.js"></script>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiaWZ0aWF6YWhtZWQiLCJhIjoiY2s2YjAzOHNkMHc5djNucWpycXdiZXZpMyJ9.ngwkmBE-oRh69WSxoWBFEg';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        minZoom: 14,
+        center: [90.4076099395752, 23.79755276035878],
+        zoom: 14
+    });
+
+    map.on('load', function() {
+        map.addSource('route', {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': [
+                        [
+			              90.40177345275879,
+			              23.79697809317055
+			            ],
+			            [
+			              90.4018485546112,
+			              23.797449292985622
+			            ],
+			            [
+			              90.40191292762756,
+			              23.797802691725433
+			            ],
+			            [
+			              90.40185928344727,
+			              23.799088662359598
+			            ],
+			            [
+			              90.40233135223389,
+			              23.801935422298683
+			            ],
+			            [
+			              90.4026746749878,
+			              23.803437308437047
+			            ],
+			            [
+			              90.40449857711792,
+			              23.803888852508013
+			            ],
+			            [
+			              90.40568947792053,
+			              23.80192560599229
+			            ],
+			            [
+			              90.40632247924805,
+			              23.801935422298683
+			            ],
+			            [
+			              90.40680527687073,
+			              23.801140299077428
+			            ],
+			            [
+			              90.40792107582092,
+			              23.800482600883168
+			            ],
+			            [
+			              90.40749192237854,
+			              23.800472784466983
+			            ],
+			            [
+			              90.40735244750977,
+			              23.800394253110845
+			            ],
+			            [
+			              90.40725588798523,
+			              23.800217557385935
+			            ],
+			            [
+			              90.40722370147705,
+			              23.80008012721152
+			            ],
+			            [
+			              90.40756702423096,
+			              23.799952513347947
+			            ],
+			            [
+			              90.4076635837555,
+			              23.799353708160048
+			            ],
+			            [
+			              90.40736317634583,
+			              23.79807755674737
+			            ],
+			            [
+			              90.4076099395752,
+			              23.797557276035878
+			            ],
+			            [
+			              90.40832877159119,
+			              23.797302043226985
+			            ],
+			            [
+			              90.4085111618042,
+			              23.79706644326604
+			            ],
+			            [
+			              90.4089081287384,
+			              23.796732675923387
+			            ],
+			            [
+			              90.40921926498413,
+			              23.796212389826305
+			            ],
+			            [
+			              90.40960550308228,
+			              23.79361092809034
+			            ]
+                    ]
+                }
+            }
+        });
+        map.addLayer({
+            'id': 'route',
+            'type': 'line',
+            'source': 'route',
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-color': '#e83e8c',
+                'line-width': 6
+            }
+        });
+    });
+
+    var multiPt = turf.multiPoint([
+    					[
+			              90.40177345275879,
+			              23.79697809317055
+			            ],
+			            [
+			              90.4018485546112,
+			              23.797449292985622
+			            ],
+			            [
+			              90.40191292762756,
+			              23.797802691725433
+			            ]
+			            ]);
+</script>
+
+<!-- distance of two routes -->
+
+<script type="text/javascript">
+	let polylines=[{
+  "type":"MultiLineString",
+   "coordinates":
+    [
+     [
+      [73.970889292119,15.272263607379],
+      [73.970743508934,15.272184655773] 
+    ]
+   ]
+},{
+  "type":"MultiLineString2",
+   "coordinates":
+    [
+     [
+      [90.40177345275879, 23.79697809317055],
+      [90.4018485546112, 23.797449292985622] 
+    ]
+   ]
+}];
+polylines=polylines.map(function(item){
+  let latitude1=item.coordinates[0][0][0];
+  let longitude1=item.coordinates[0][0][1];
+  let latitude2=item.coordinates[0][1][0];
+  let longitude2=item.coordinates[0][1][1];
+
+  var from = turf.point([latitude1, longitude1]);
+  var to = turf.point([latitude2, longitude2]);
+  var options = {units: 'kilometers'};
+
+  var distance = turf.distance(from, to, options);
+  console.log("Distance: "+distance+" km");
+
+});
+console.log(polylines);
+</script>
+
+<script type="text/javascript">
+	var from = turf.point([90.40177345275879, 23.79697809317055]);
+	var to = turf.point([90.4018485546112, 23.797449292985622]);
+	var options = {units: 'kilometers'};
+
+	var distance = turf.distance(from, to, options);
+	console.log("Distance: "+distance);
+</script>
+
+</body>
+</html>
